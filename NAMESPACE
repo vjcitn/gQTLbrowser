@@ -1,4 +1,4 @@
-export(gQTLbrowse)
+export(gQTLbrowse, gQTLbrowse2)
 
 import(methods)
 
