@@ -1,6 +1,6 @@
 
 gQTLbrowse = function( store, baseSE, 
-   stateGR, phenGR, FDRsupp, orgDbObj=Homo.sapiens ) {
+   stateGR, phenGR, FDRsupp, orgDbObj=Homo.sapiens, selector=selectizeInput ) {
 #
 # interface to shiny/ggvis eqtl exploration
 # assumes central identifier is the gene symbol
@@ -40,7 +40,7 @@ gQTLbrowse = function( store, baseSE,
    #
    # FIXME should be selectize
    #
-      fluidRow(selectInput('sym', 'Gene symbol', choices=sort(availSyms), 
+      fluidRow(selector('sym', 'Gene symbol', choices=sort(availSyms), 
              multiple=FALSE)), 
       fluidRow(verbatimTextOutput('ens_out')) ,
       fluidRow( ggvisOutput('p') )
