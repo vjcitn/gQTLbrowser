@@ -1,12 +1,9 @@
-export(gQTLbrowse, gQTLbrowse2)
+export(gQTLbrowse, gQTLbrowse2, gQTLbrowse3)
 
 import(methods)
-
-importClassesFrom(GenomicRanges, GRanges, GRangesList,
-   SummarizedExperiment)
-
-importFrom(GenomicRanges, rowData, findOverlaps, queryHits,
- subjectHits, start)
+import(GenomicRanges)
+import(S4Vectors)
+import(SummarizedExperiment)
 
 importFrom(GenomeInfoDb, seqlevelsStyle, "seqlevelsStyle<-")
 
@@ -16,7 +13,7 @@ importClassesFrom(gQTLBase, ciseStore)
 
 importFrom(gQTLBase, ciseStore, extractByProbes)
 
-importFrom(gQTLstats, getFDRfunc, gmod2)
+importFrom(gQTLstats, getFDRfunc) #, gmod2)
 
 importClassesFrom(gQTLstats, FDRsupp)
 
@@ -24,3 +21,4 @@ importFrom(AnnotationDbi, keys)
 
 importFrom(geuvStore, partialRegistry)
 
+importFrom(erma, genemodel)

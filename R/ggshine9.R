@@ -1,5 +1,5 @@
 
-gQTLbrowse = function( store, baseSE, 
+gQTLbrowse3 = function( store, baseSE, 
    stateGR, phenGR, FDRsupp, orgDbObj=Homo.sapiens, selector=selectizeInput ) {
 #
 # interface to shiny/ggvis eqtl exploration
@@ -22,9 +22,10 @@ gQTLbrowse = function( store, baseSE,
 #
    
    availProbes = store@probemap$probeid
-   availSyms = rowRanges(baseSE[ availProbes, ])$gene_name
+   availSyms = rowData(baseSE[ availProbes, ])$gene_name
+   sorts = sort(availSyms)
    symok = which(availSyms %in% allsyms)
-   availTypes = rowRanges(baseSE[ availProbes, ])$gene_type
+   availTypes = rowData(baseSE[ availProbes, ])$gene_type
    p2g = availSyms = availSyms[symok]
    p2t = availTypes[symok]
    availProbes = availProbes[symok]
@@ -40,7 +41,8 @@ gQTLbrowse = function( store, baseSE,
    #
    # FIXME should be selectize
    #
-      fluidRow(selector('sym', 'Gene symbol', choices=sort(availSyms), 
+      fluidRow(selector('sym', 'Gene symbol', choices=c("", sorts), 
+             selected=sorts[2],
              multiple=FALSE)), 
       fluidRow(verbatimTextOutput('ens_out')) ,
       fluidRow( ggvisOutput('p') )
@@ -69,6 +71,10 @@ gQTLbrowse = function( store, baseSE,
         n1$st878 = rep("none", length(n1))
         fo = findOverlaps(n1, stateGR)
         n1$st878[ queryHits(fo) ] = as.character(stateGR$name)[ subjectHits(fo) ]
+   #     uniqst = unique(stateGR$name) # useless effort at persistent colormap
+   #     nuniqst = length(uniqst)
+   #     cmap = colorRampPalette(c("red", "blue"))(nuniqst) # vector of codes
+   #     n1$col878 = cmap[as.numeric(factor(n1$st878))]
    #
    # execute the FDR filter
    #
@@ -94,7 +100,7 @@ gQTLbrowse = function( store, baseSE,
    # obtain a 'gene model' for the selected symbol, so that
    # locations of transcripts can be given
    #
-        mod = genemodel( input$sym )
+        mod = gmod2( input$sym )
    #
    # add the location information, "faking" fields for eQTL results
    #
@@ -127,6 +133,9 @@ gQTLbrowse = function( store, baseSE,
         } )
    
       P1 = reactive( {
+        validate( 
+          need( input$sym != "", FALSE )
+        )
          all_values <- function(x) {
              if(is.null(x)) return(NULL)
              row <- mydf[mydf$rowid == x$rowid, ]

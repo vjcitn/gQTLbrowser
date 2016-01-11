@@ -141,11 +141,12 @@ extractTag = "gene" ) { #
              row <- mydf[mydf$rowid == x$rowid, ]
              paste0(names(row), ": ", format(row), collapse = "<br />")
            }
+         stateN = "chrHMM NA12878"
          filteredData %>% ggvis(~Mb, ~assoc, key := ~rowid,
                   fill = ~st878) %>% 
                layer_points() %>%
                add_tooltip(all_values, "hover") %>% layer_points() %>%
-               add_legend("fill", title=paste0(deparse(substitute(stateGR)), " state"), values=unique(mydf$st878)) %>% 
+               add_legend("fill", title=paste0(stateN, " state"), values=unique(mydf$st878)) %>% 
    
                add_axis("y", title=paste0("assoc (-log10p) w/ ", input$sym, " expr" ))
          } )

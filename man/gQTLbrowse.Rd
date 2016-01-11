@@ -73,9 +73,8 @@ seqlevelsStyle(ggr19) = "NCBI"
 library(geuvPack)
 data(geuFPKM)
 library(gQTLBase)
-library(geuvStore)
-pr = partialRegistry()
-prst = ciseStore(pr, TRUE, FALSE)
+library(geuvStore2)
+prst = makeGeuvStore2()
 data(ggr19)
 data(filtFDR)
 library(gQTLstats)
@@ -88,7 +87,7 @@ library(Homo.sapiens)
 # selectInput for simpler interface
 #
 print( gQTLbrowse( prst, geuFPKM, stateGR = hmm878, 
-     phenGR = ggr19, FDRsupp = filtFDR, selector=selectizeInput ) )
+     phenGR = ggr19, FDRsupp = filtFDR, selector=selectInput ) )
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

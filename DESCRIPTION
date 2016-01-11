@@ -1,11 +1,11 @@
 Package: gQTLbrowser
 Title: interactive exploration of gQTL results
-Version: 0.0.2
+Version: 0.0.5
 Author: VJ Carey <stvjc@channing.harvard.edu>
 Description: interactive exploration of gQTL results
 Suggests: 
-Imports: geuvStore, geuvPack, gQTLBase, gQTLstats,
-	GenomeInfoDb, dplyr, AnnotationDbi, geuvStore
+Imports: geuvStore2, geuvPack, gQTLBase, gQTLstats,
+	GenomeInfoDb, dplyr, AnnotationDbi, erma
 Depends: shiny, ggvis, BatchJobs, Homo.sapiens
 Maintainer: VJ Carey <stvjc@channing.harvard.edu>
 License: Artistic-2.0
