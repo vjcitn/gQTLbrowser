@@ -19,6 +19,4 @@ importClassesFrom(gQTLstats, FDRsupp)
 
 importFrom(AnnotationDbi, keys)
 
-importFrom(geuvStore, partialRegistry)
-
 importFrom(erma, genemodel)
