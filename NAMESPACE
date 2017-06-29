@@ -1,4 +1,4 @@
-export(gQTLbrowse, gQTLbrowse2, gQTLbrowse3)
+export(gQTLbrowse)
 
 import(methods)
 import(GenomicRanges)

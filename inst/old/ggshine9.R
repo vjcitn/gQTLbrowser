@@ -1,5 +1,5 @@
 
-gQTLbrowse3 = function( store, baseSE, 
+gQTLbrowse = function( store, baseSE, 
    stateGR, phenGR, FDRsupp, orgDbObj=Homo.sapiens, selector=selectizeInput ) {
 #
 # interface to shiny/ggvis eqtl exploration
@@ -60,6 +60,9 @@ gQTLbrowse3 = function( store, baseSE,
    ##   and bind information on chromatin state, transcript location
    
       filteredData = reactive( {
+        validate( 
+          need( input$sym != "", "provide symbol" )
+        )
    #
    # get the GRanges with eQTL results
    #
@@ -134,7 +137,7 @@ gQTLbrowse3 = function( store, baseSE,
    
       P1 = reactive( {
         validate( 
-          need( input$sym != "", FALSE )
+          need( input$sym != "", "provide symbol" )
         )
          all_values <- function(x) {
              if(is.null(x)) return(NULL)

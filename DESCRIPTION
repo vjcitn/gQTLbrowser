@@ -1,6 +1,6 @@
 Package: gQTLbrowser
 Title: interactive exploration of gQTL results
-Version: 0.0.7
+Version: 0.0.8
 Author: VJ Carey <stvjc@channing.harvard.edu>
 Description: interactive exploration of gQTL results
 Suggests: 

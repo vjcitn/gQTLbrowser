@@ -14,8 +14,10 @@ gmod2 = function (sym, genome = "hg19", orgDb, #=Homo.sapiens,
     require(Homo.sapiens)
     })  
     txdb = get(txn)
+    suppressWarnings({
     num = AnnotationDbi::select(orgDb, keys=sym, keytype="SYMBOL",
           columns="ENTREZID")$ENTREZID
+    })
     collector(txdb, by = "gene")[[num]]
 }
 
