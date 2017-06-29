@@ -1,0 +1,23 @@
+
+ data(ggr19)
+     library(GenomeInfoDb)
+     seqlevelsStyle(ggr19) = "NCBI"
+     library(geuvPack)
+     data(geuFPKM)
+     library(gQTLBase)
+     library(geuvStore2)
+     prst = makeGeuvStore2()
+     data(ggr19)
+     data(filtFDR)
+     library(gQTLstats)
+     data(hmm878)
+     seqlevelsStyle(hmm878) = "NCBI"
+     library(Homo.sapiens)
+     #
+     # will throw error when gene symbol in input box is deleted
+     # but will simply select properly if it is not; change selector to
+     # selectInput for simpler interface
+     #
+      gQTLbrowse3( prst, geuFPKM, stateGR = hmm878, 
+          phenGR = ggr19, FDRsupp = filtFDR, selector=selectInput ) 
+

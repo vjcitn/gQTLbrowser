@@ -1,4 +1,5 @@
 
+
 gQTLbrowse3 = function( store, baseSE, 
    stateGR, phenGR, FDRsupp, orgDbObj=Homo.sapiens, selector=selectizeInput ) {
 #
@@ -31,35 +32,25 @@ gQTLbrowse3 = function( store, baseSE,
    availProbes = availProbes[symok]
    names(p2g) = availProbes
    names(p2t) = availProbes
+
+input = list()
+input$sym = availSyms[2]
    
    #
    # we want to get the symbols from shiny, but use
    # ggvis for tooltips
    #
    
-   ui = fluidPage(
-   #
-   # FIXME should be selectize
-   #
-      fluidRow(selector('sym', 'Gene symbol', choices=c("", sorts), 
-             selected=sorts[2],
-             multiple=FALSE)), 
-      fluidRow(verbatimTextOutput('ens_out')) ,
-      fluidRow( ggvisOutput('p') )
-      )
-   
-   server = function(input, output) {
+#   server = function(input, output) {
    
    ## first, extract the ENSEMBL ID for selected symbol
    
-      output$ens_out = renderText(
                          paste0("GEUVADIS ENSEMBL ID: ",
-                            availProbes[ which(availSyms == input$sym)[1] ] ))
+                            availProbes[ which(availSyms == input$sym)[1] ] )
    
    ## second, acquire the appropriate eQTL testing results
    ##   and bind information on chromatin state, transcript location
    
-      filteredData = reactive( {
    #
    # get the GRanges with eQTL results
    #
@@ -128,29 +119,27 @@ gQTLbrowse3 = function( store, baseSE,
    #
         mydf$rowid = 1:nrow(mydf)
         mydf <<- mydf
-        vals = mydf %>% dplyr::filter( gene == input$sym )  # do earlier !?!
-        return(vals)
-        } )
+        vals = mydf %>% filter( gene == input$sym )  # do earlier !?!
    
-      P1 = reactive( {
-        validate( 
-          need( input$sym != "", FALSE )
-        )
-         all_values <- function(x) {
-             if(is.null(x)) return(NULL)
-             row <- mydf[mydf$rowid == x$rowid, ]
-             paste0(names(row), ": ", format(row), collapse = "<br />")
-           }
-         filteredData %>% ggvis(~Mb, ~ml10FDR, key := ~rowid,
-                  fill = ~st878) %>% 
-               layer_points() %>%
-               add_tooltip(all_values, "hover") %>% layer_points() %>%
-               add_legend("fill", title=paste0(deparse(substitute(stateGR)), " state"), values=unique(mydf$st878)) %>% 
-   
-               add_axis("y", title=paste0("-log10 FDR assoc w/ ", input$sym, " expr" ))
-         } )
-      P1 %>% bind_shiny("p")
-   }
-   
-   shinyApp(ui = ui, server=server)
+  #    P1 = reactive( {
+  #      validate( 
+  #        need( input$sym != "", FALSE )
+  #      )
+  #       all_values <- function(x) {
+  #           if(is.null(x)) return(NULL)
+  #           row <- mydf[mydf$rowid == x$rowid, ]
+  #           paste0(names(row), ": ", format(row), collapse = "<br />")
+  #         }
+  #       filteredData %>% ggvis(~Mb, ~ml10FDR, key := ~rowid,
+  #                fill = ~st878) %>% 
+  #             layer_points() %>%
+  #             add_tooltip(all_values, "hover") %>% layer_points() %>%
+  ##             add_legend("fill", title=paste0(deparse(substitute(stateGR)), " state"), values=unique(mydf$st878)) %>% 
+  # 
+  #             add_axis("y", title=paste0("-log10 FDR assoc w/ ", input$sym, " expr" ))
+  #       } )
+  #    P1 %>% bind_shiny("p")
+  # }
+  # 
+  # shinyApp(ui = ui, server=server)
 }
