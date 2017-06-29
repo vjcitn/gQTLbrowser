@@ -28,11 +28,19 @@ gQTLbrowse = function (store,
     names(p2g) = availProbes
     names(p2t) = availProbes
     ui = fluidPage(
-          fluidRow(helpText("genomic QTL visualizer: mouseover for metadata")),
-          fluidRow(selectInput("sym", "Gene symbol", 
-        choices = sort(availSyms), multiple = FALSE)), fluidRow(verbatimTextOutput("ens_out")), 
-          fluidRow(ggvisOutput("p"))
-          )
+          sidebarLayout( 
+           sidebarPanel(
+             fluidRow(helpText("genomic QTL visualizer: mouseover for metadata")),
+             fluidRow(selectInput("sym", "Gene symbol", choices = sort(availSyms), multiple = FALSE))
+             ),
+             mainPanel(
+              fluidPage(
+                fluidRow(verbatimTextOutput("ens_out")), 
+                ggvisOutput("p")
+                )
+              )
+             )
+            )
     server = function(input, output) {
         output$ens_out = renderText(paste0("GENCODE V12 ENSEMBL ID: ", 
             availProbes[which(availSyms == input$sym)[1]]))
@@ -64,7 +72,7 @@ gQTLbrowse = function (store,
                 extra2 = tail(mydf, length(disdat))
                 extra2$assoc = -0.4
                 extra2$Mb = start(disdat)/1e+06
-                extra2$stateAnno = paste0("  trait: ", disdat$"DISEASE/TRAIT")
+                extra2$stateAnno = paste0("  trait: ", substr(disdat$"DISEASE/TRAIT", 1, 12))
                 mydf = rbind(mydf, extra2)
             }
             mydf$rowid = 1:nrow(mydf)
